@@ -1,0 +1,2 @@
+*.wasm
+graalvm/wasm-graal-training/target/*
