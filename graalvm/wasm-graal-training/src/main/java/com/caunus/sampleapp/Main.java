@@ -13,22 +13,20 @@ public class Main {
     public static void main(String[] args) throws IOException {
         try (Context context = Context.newBuilder().allowAllAccess(true).build()) {
             Set<String> languages = context.getEngine().getLanguages().keySet();
-            for (String id : languages) {
-                System.out.println("Initializing language " + id);
-                for (int i = 0; i < 100; i++) {
-                    Source source = Source.newBuilder("wasm", Main.class.getResource("sigma.wasm")).build();
-                    context.eval(source);
-                    Value sigma = context.getBindings("wasm").getMember("main").getMember("sigma");
-                    System.out.println("wasm: sigma(300) = " + sigma.execute(300L));
-                    source = null;
-                    sigma = null;
+            
+            for (int i = 0; i < 100; i++) {    
+                for (String id : languages) {
+                    System.out.println("Initializing language " + id);
 
-                    // Source source = Source.newBuilder("wasm", Main.class.getResource("subLoop.wasm")).build();
+                    // Source source = Source.newBuilder("wasm", Main.class.getResource("sigma.wasm")).build();
                     // context.eval(source);
-                    // Value subLoop = context.getBindings("wasm").getMember("main").getMember("subLoop");
-                    // System.out.println("wasm: subLoop(500) = " + subLoop.execute(500L));
-                    // source = null;
-                    // subLoop = null;
+                    // Value sigma = context.getBindings("wasm").getMember("main").getMember("sigma");
+                    // System.out.println("wasm: sigma(100) = " + sigma.execute(100L));
+
+                    Source source = Source.newBuilder("wasm", Main.class.getResource("subLoop.wasm")).build();
+                    context.eval(source);
+                    Value subLoop = context.getBindings("wasm").getMember("main").getMember("subLoop");
+                    System.out.println("wasm: subLoop(100) = " + subLoop.execute(100L));
                 }
             }
         }
