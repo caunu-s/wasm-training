@@ -15,9 +15,21 @@ public class Main {
             Set<String> languages = context.getEngine().getLanguages().keySet();
             for (String id : languages) {
                 System.out.println("Initializing language " + id);
-                context.eval(Source.newBuilder("wasm", Main.class.getResource("sigma.wasm")).build());
-                Value factorial = context.getBindings("wasm").getMember("main").getMember("sigma");
-                System.out.println("wasm: sigma(10) = " + factorial.execute(10L));
+                for (int i = 0; i < 100; i++) {
+                    Source source = Source.newBuilder("wasm", Main.class.getResource("sigma.wasm")).build();
+                    context.eval(source);
+                    Value sigma = context.getBindings("wasm").getMember("main").getMember("sigma");
+                    System.out.println("wasm: sigma(300) = " + sigma.execute(300L));
+                    source = null;
+                    sigma = null;
+
+                    // Source source = Source.newBuilder("wasm", Main.class.getResource("subLoop.wasm")).build();
+                    // context.eval(source);
+                    // Value subLoop = context.getBindings("wasm").getMember("main").getMember("subLoop");
+                    // System.out.println("wasm: subLoop(500) = " + subLoop.execute(500L));
+                    // source = null;
+                    // subLoop = null;
+                }
             }
         }
     }
