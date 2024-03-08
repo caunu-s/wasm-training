@@ -14,19 +14,19 @@ public class Main {
         try (Context context = Context.newBuilder().allowAllAccess(true).build()) {
             Set<String> languages = context.getEngine().getLanguages().keySet();
             
-            for (int i = 0; i < 100; i++) {    
+            for (int i = 0; i < 1; i++) {    
                 for (String id : languages) {
                     System.out.println("Initializing language " + id);
 
-                    // Source source = Source.newBuilder("wasm", Main.class.getResource("sigma.wasm")).build();
-                    // context.eval(source);
-                    // Value sigma = context.getBindings("wasm").getMember("main").getMember("sigma");
-                    // System.out.println("wasm: sigma(100) = " + sigma.execute(100L));
-
-                    Source source = Source.newBuilder("wasm", Main.class.getResource("subLoop.wasm")).build();
+                    Source source = Source.newBuilder("wasm", Main.class.getResource("sigma.wasm")).build();
                     context.eval(source);
-                    Value subLoop = context.getBindings("wasm").getMember("main").getMember("subLoop");
-                    System.out.println("wasm: subLoop(100) = " + subLoop.execute(100L));
+                    Value sigma = context.getBindings("wasm").getMember("main").getMember("sigma");
+                    System.out.println("wasm: sigma(250) = " + sigma.execute(250L));
+
+                    // Source source = Source.newBuilder("wasm", Main.class.getResource("subLoop.wasm")).build();
+                    // context.eval(source);
+                    // Value subLoop = context.getBindings("wasm").getMember("main").getMember("subLoop");
+                    // System.out.println("wasm: subLoop(100) = " + subLoop.execute(100L));
                 }
             }
         }
